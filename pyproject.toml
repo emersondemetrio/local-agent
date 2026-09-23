@@ -8,3 +8,18 @@ dependencies = [
     "pydantic>=2.13.5",
     "pydantic-ai>=2.47.0",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.16.8",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.format]
+quote-style = "double"
