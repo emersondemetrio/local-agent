@@ -18,7 +18,7 @@ A small, 100% local personal assistant built with [pydantic-ai](https://ai.pydan
 | `agent_tools.py` | Tool functions exposed to the agent.          |
 | `extras.py`      | The `Spinner`.                                |
 | `schemas.py`     | The plain-text output schema.                 |
-| `models.py`      | Enum of models we've evaluated.               |
+| `models.py`      | Enum of models evaluated models.              |
 
 ## Get running
 
