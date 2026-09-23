@@ -1,6 +1,6 @@
 # Local Agent
 
-A small, 100% local personal assistant built with [pydantic-ai](https://ai.pydantic.dev/) and [Ollama](https://ollama.com/). No API keys, no cloud calls.
+A small, 100% local personal assistant built with [pydantic-ai](https://ai.pydantic.dev/) and [Ollama](https://ollama.com/).
 
 ## Features
 
@@ -12,12 +12,13 @@ A small, 100% local personal assistant built with [pydantic-ai](https://ai.pydan
 
 ## Project structure
 
-| File             | Purpose                                      |
+| File             | Purpose                                       |
 | ---------------- | --------------------------------------------- |
 | `main.py`        | Model/agent setup and the chat loop.          |
 | `agent_tools.py` | Tool functions exposed to the agent.          |
 | `extras.py`      | The `Spinner`.                                |
 | `schemas.py`     | The plain-text output schema.                 |
+| `models.py`      | Enum of models we've evaluated.               |
 
 ## Get running
 
@@ -44,11 +45,11 @@ uv run main.py
 
 Or use the [Makefile](./Makefile): `make install`, `make run`.
 
-To use a different model, change the model name in `build_agent()` in `main.py`.
+To use a different model, pull it, add it to the `Model` enum in `models.py`, and use it in `build_agent()` in `main.py`.
 
 ## Example
 
-```
+```bash
 You: what time is it?
 Agent: It's Tuesday, September 22, 2026 at 11:05 PM.
 
@@ -79,8 +80,6 @@ Optional `.env`:
 ```
 PYDANTIC_AI_NO_BANNER=1
 ```
-
-Not required, `main.py` sets it itself.
 
 ## Reference
 

@@ -8,13 +8,14 @@ from pydantic_ai.providers.ollama import OllamaProvider
 
 from agent_tools import calculate, get_current_time, read_notes, save_note, should_exit
 from extras import Spinner
+from models import Model
 from schemas import PlainTextReply
 
 
 @Spinner("Loading agent")
 def build_agent() -> Agent:
     model = OllamaModel(
-        "gemma4:e4b",
+        Model.GEMMA4_E4B,
         provider=OllamaProvider(base_url="http://localhost:11434/v1"),
     )
 
