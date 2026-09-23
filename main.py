@@ -1,37 +1,34 @@
 import os
 
-# Must be set before pydantic_ai is imported so it suppresses the
-# framework's startup banner.
 os.environ.setdefault("PYDANTIC_AI_NO_BANNER", "1")
 
-from pydantic_ai import Agent
+from pydantic_ai import Agent, NativeOutput
 from pydantic_ai.models.ollama import OllamaModel
 from pydantic_ai.providers.ollama import OllamaProvider
 
 from agent_tools import calculate, get_current_time, read_notes, save_note, should_exit
-from extras import MARKDOWN_INSTRUCTIONS, Spinner, strip_markdown
+from extras import Spinner
+from schemas import PlainTextReply
 
 
 @Spinner("Loading agent")
 def build_agent() -> Agent:
     model = OllamaModel(
-        "qwen3:8b",
+        "gemma4:e4b",
         provider=OllamaProvider(base_url="http://localhost:11434/v1"),
     )
 
     agent = Agent(
         model,
         tools=[get_current_time, calculate, read_notes, save_note],
+        output_type=NativeOutput(PlainTextReply),
         instructions=(
             "You are a helpful personal assistant running 100% locally. "
             "Use your tools whenever they can help answer the questions. "
-            "Keep your answers short and friendly. " + MARKDOWN_INSTRUCTIONS
+            "Do not use emojis. "
+            "Keep your answers short and friendly, and write in plain prose."
         ),
     )
-
-    @agent.output_validator
-    def ensure_plain_text(output: str) -> str:
-        return strip_markdown(output)
 
     return agent
 
@@ -58,9 +55,8 @@ def main():
             result = ask(agent, user_input, history)
 
             history = result.all_messages()
-            print(f"Agent: {result.output}")
+            print(f"Agent: {result.output.reply}")
         except (EOFError, KeyboardInterrupt):
-            # Ctrl+D raises EOFError, Ctrl+C raises KeyboardInterrupt.
             print("\nGoodbye!")
             break
 
